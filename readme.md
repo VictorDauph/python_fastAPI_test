@@ -10,6 +10,7 @@ uvicorn main:app --reload
 
 ````
 Ce projet utilise un environnement Conda pour garantir un environnement reproductible.
+Il sera dockerisé à terme.
 
 ## 🔁 Recréer l’environnement
 
