@@ -1,0 +1,36 @@
+# ▶️ Environnement Conda local
+.env
+.conda/
+*.conda
+
+# ▶️ Environnement virtuel Python (au cas où)
+.venv/
+venv/
+ENV/
+env/
+
+# ▶️ Caches et métadonnées Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+
+# ▶️ Logs
+*.log
+
+# ▶️ Fichiers système
+.DS_Store
+Thumbs.db
+
+# ▶️ PyCharm
+.idea/
+
+# ▶️ VS Code
+.vscode/
+
+# ▶️ Tests / outputs
+htmlcov/
+coverage.xml
+*.cover
+*.pytest_cache/
