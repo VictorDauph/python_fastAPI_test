@@ -1,7 +1,7 @@
 
 import sys
 
-from routes import produit
+from routes import produit_routes
 
 print("Python utilisé :", sys.executable)
 
@@ -16,4 +16,4 @@ def lire_racine():
     return {"message": "Bienvenue, petite flamme !!!!"}
 
 #import sous-router
-app.include_router(produit.router)
+app.include_router(produit_routes.router)
