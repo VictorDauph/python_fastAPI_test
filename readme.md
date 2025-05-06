@@ -1,16 +1,18 @@
 # Projet FastAPI - Environnement Conda
 
 ## lancer le projet quand installé!
-````bash
+```bash
 # 1. Active l'environnement Conda
 conda activate fastapi_env
-
 # 2. Lance le serveur
 uvicorn main:app --reload
-
-````
+```
 Ce projet utilise un environnement Conda pour garantir un environnement reproductible.
 Il sera dockerisé à terme.
+
+## swagger
+
+http://localhost:8000/docs
 
 ## 🔁 Recréer l’environnement
 
