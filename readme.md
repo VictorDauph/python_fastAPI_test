@@ -27,21 +27,6 @@ docker-compose up --build
 
 ---
 
-## 🤖 Structure du projet
-
-```
-.
-├── controllers/         # Logique métier
-├── routes/              # Routes FastAPI
-├── schemas_validators/  # Schémas Pydantic
-├── main.py              # Entrée FastAPI
-├── environment.yml      # Dépendances Conda
-├── docker-compose.yml
-├── Dockerfile
-```
-
----
-
 ## 🛠 Debug avec PyCharm
 
 ### Configuration
