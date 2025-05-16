@@ -43,6 +43,7 @@ docker-compose up --build
 * Commande : `main:app --host 0.0.0.0 --port 8000 --reload`
 * Working dir : racine du projet
 * Env var : `PYTHONUNBUFFERED=1`
+* Cocher emulate terminal in output console
 
 ### Attention :
 
