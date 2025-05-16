@@ -1,33 +1,43 @@
 from typing import List
 
+from beanie import PydanticObjectId
 from fastapi import HTTPException
 
+from beanie_models.product_model import Produit
+from repositories.produit_repo import create_produit_repo, delete_produit_repo, get_produits_repo
 from schemas_validators.prduit_schema import ProduitResponse, ProduitCreate
 
+'''
 fake_db: List[ProduitResponse] = [
     ProduitResponse(produit_id=1, nom="Ordinateur", prix=999),
     ProduitResponse(produit_id=2, nom="Clavier", prix=49),
     ProduitResponse(produit_id=3, nom="Souris", prix=29)
 ]
+'''
 
-
+'''
 def get_produit(produit_id: int) -> ProduitResponse:
     for produit in fake_db:
         if produit.produit_id == produit_id:
             return produit
     raise HTTPException(status_code=404, detail= "Produit non trouvé!")
+'''
+async def get_produits()-> List[ProduitResponse]:
+    list_produits = await get_produits_repo()
+    list_produits_response:List[ProduitResponse]=[ ProduitResponse(**produit.model_dump(include={"id", "nom", "prix"})) for produit in list_produits]
+    return list_produits_response
 
-def get_produits()-> List[ProduitResponse]:
-    return fake_db
+async  def create_produit(produit: ProduitCreate)->ProduitResponse:
 
-def create_produit(produit: ProduitCreate)->ProduitResponse:
-    new_produit_dict = produit.model_dump()
-    new_produit_dict["produit_id"] = len(fake_db) + 1
-    new_produit =ProduitResponse(**new_produit_dict)
-    fake_db.append(new_produit)
-    return new_produit
+    #new_produit_dict = produit.model_dump()
+    #new_produit_dict["produit_id"] = len(fake_db) + 1
+    #new_produit =ProduitResponse(**new_produit_dict)
+    new_produit: Produit =await create_produit_repo(produit)
+    return ProduitResponse(**new_produit.model_dump(include={"id", "nom", "prix"}))
 
-def delete_produit(produit_id: int):
-    global fake_db
-    fake_db = [p for p in fake_db if p.produit_id != produit_id]
-    return {"message": f"Produit {produit_id} supprimé"}
+async def delete_produit(produit_id: str):
+    produit_object_id = PydanticObjectId(produit_id)
+    res = await delete_produit_repo(produit_object_id)
+    if res:
+        return {"message": f"Produit {produit_object_id} supprimé"}
+    return {"message": "échec suppression"}

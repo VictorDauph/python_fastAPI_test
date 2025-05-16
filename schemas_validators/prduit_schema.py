@@ -1,3 +1,4 @@
+from beanie import PydanticObjectId
 from pydantic import BaseModel, Field
 
 class ProduitCreate(BaseModel):
@@ -5,6 +6,6 @@ class ProduitCreate(BaseModel):
     prix: float = Field(..., gt=0, example=79.99)
 
 class ProduitResponse(BaseModel):
-    produit_id: int
+    id: PydanticObjectId
     nom: str
     prix: float
