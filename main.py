@@ -3,7 +3,7 @@ import sys
 from contextlib import asynccontextmanager
 
 from config.db import init_db
-from routes import produit_routes
+from routes import produit_routes, auth_routes
 
 print("Python utilisé :", sys.executable)
 
@@ -26,3 +26,4 @@ def lire_racine():
 
 #import sous-router
 app.include_router(produit_routes.router)
+app.include_router(auth_routes.router)
