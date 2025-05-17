@@ -4,8 +4,9 @@ from beanie import PydanticObjectId
 from fastapi import HTTPException
 
 from beanie_models.product_model import Produit
-from repositories.produit_repo import create_produit_repo, delete_produit_repo, get_produits_repo
-from schemas_validators.prduit_schema import ProduitResponse, ProduitCreate
+from repositories.produit_repo import create_produit_repo, delete_produit_repo, get_produits_repo, get_produit_repo, \
+    update_produit_repo
+from schemas_validators.prduit_schema import ProduitResponse, ProduitCreate, ProduitUpdate
 
 '''
 fake_db: List[ProduitResponse] = [
@@ -15,13 +16,13 @@ fake_db: List[ProduitResponse] = [
 ]
 '''
 
-'''
-def get_produit(produit_id: int) -> ProduitResponse:
-    for produit in fake_db:
-        if produit.produit_id == produit_id:
-            return produit
+
+async def get_produit(produit_id: str) -> ProduitResponse:
+    produit = await get_produit_repo(PydanticObjectId(produit_id))
+    if produit:
+        return ProduitResponse(**produit.model_dump(include={"id", "nom", "prix"}))
     raise HTTPException(status_code=404, detail= "Produit non trouvé!")
-'''
+
 async def get_produits()-> List[ProduitResponse]:
     list_produits = await get_produits_repo()
     list_produits_response:List[ProduitResponse]=[ ProduitResponse(**produit.model_dump(include={"id", "nom", "prix"})) for produit in list_produits]
@@ -41,3 +42,10 @@ async def delete_produit(produit_id: str):
     if res:
         return {"message": f"Produit {produit_object_id} supprimé"}
     return {"message": "échec suppression"}
+
+async def update_produit(produit_id: str, data: ProduitUpdate):
+    produit_object_id = PydanticObjectId(produit_id)
+    new_produit = await update_produit_repo(produit_object_id, data)
+    if new_produit:
+        return ProduitResponse(**new_produit.model_dump(include={"id", "nom", "prix"}))
+    raise HTTPException(status_code=404, detail= "Produit non trouvé!")

@@ -1,8 +1,8 @@
 from fastapi import APIRouter
 from typing import List
 
-from controllers.produit_controllers import create_produit, delete_produit, get_produits
-from schemas_validators.prduit_schema import ProduitCreate, ProduitResponse
+from controllers.produit_controllers import create_produit, delete_produit, get_produits, get_produit, update_produit
+from schemas_validators.prduit_schema import ProduitCreate, ProduitResponse, ProduitUpdate
 
 router = APIRouter(
     prefix="/produits",
@@ -14,11 +14,11 @@ router = APIRouter(
 async def get_produits_route() -> List[ProduitResponse]:
     return await get_produits()
 
-'''
+
 @router.get("/{produit_id}",response_model=ProduitResponse)
-def get_produit_route(produit_id: int) -> ProduitResponse:
-    return get_produit(produit_id)
-'''
+async def get_produit_route(produit_id: str) -> ProduitResponse:
+    return await get_produit(produit_id)
+
 @router.post("/",response_model=ProduitResponse)
 async def create_produit_route(produit: ProduitCreate):
     return await create_produit(produit)
@@ -26,3 +26,7 @@ async def create_produit_route(produit: ProduitCreate):
 @router.delete("/{produit_id}",response_model=dict)
 async def delete_produit_route(produit_id: str):
     return await delete_produit(produit_id)
+
+@router.put("/{produit_id}",response_model=ProduitResponse)
+async def update_produit_route(produit_id: str, data: ProduitUpdate):
+    return await update_produit(produit_id, data)
