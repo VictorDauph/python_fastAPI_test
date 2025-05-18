@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 
-from controllers.auth_controller import register
+from controllers.auth_controller import register, login
 from schemas_validators.user_schema import UserResponse, UserCreate
 
 router = APIRouter(
@@ -12,3 +12,10 @@ router = APIRouter(
 async def register_user_route(user:UserCreate):
     new_user:UserResponse= await register(user)
     return new_user
+
+@router.post("/login")
+async def login_route(user:UserCreate):
+    try:
+        return await login(user)
+    except Exception as e:
+        return {"error":str(e)}
