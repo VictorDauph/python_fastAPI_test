@@ -12,7 +12,10 @@ router = APIRouter(
 
 @router.post("/register")
 async def register_user_route(user:UserCreate):
-    allow_registration=os.getenv("ALLOW_REGISTRATION").lower() == "true"
+    allow_registration=False
+    if os.getenv("ALLOW_REGISTRATION") and os.getenv("ALLOW_REGISTRATION").lower() == "true":
+        allow_registration=True
+
     if allow_registration:
         try:
             new_user:UserResponse= await register(user)
