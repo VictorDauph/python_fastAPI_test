@@ -9,7 +9,7 @@ ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
 def create_access_token(data: dict, expires_delta: timedelta = None)->str:
     if SECRET_KEY is None:
-        raise {"message":"SECRET_KEY is missing"}
+        raise Exception("JWT_KEY is missing")
     to_encode = data.copy()
     expire = datetime.now(UTC) + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
     to_encode.update({"exp": expire})
