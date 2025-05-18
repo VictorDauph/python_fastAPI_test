@@ -1,3 +1,5 @@
+import os
+
 from fastapi import APIRouter
 
 from controllers.auth_controller import register, login
@@ -10,11 +12,14 @@ router = APIRouter(
 
 @router.post("/register")
 async def register_user_route(user:UserCreate):
-    try:
-        new_user:UserResponse= await register(user)
-        return new_user
-    except Exception as e:
-        return {"error":str(e)}
+    allow_registration=os.getenv("ALLOW_REGISTRATION").lower() == "true"
+    if allow_registration:
+        try:
+            new_user:UserResponse= await register(user)
+            return new_user
+        except Exception as e:
+            return {"error":str(e)}
+    return {"error":"Registration is not allowed"}
 
 @router.post("/login")
 async def login_route(user:UserCreate):
