@@ -25,6 +25,7 @@ async def get_produit(produit_id: str) -> ProduitResponse:
 
 async def get_produits()-> List[ProduitResponse]:
     list_produits = await get_produits_repo()
+
     list_produits_response:List[ProduitResponse]=[ ProduitResponse(**produit.model_dump(include={"id", "nom", "prix"})) for produit in list_produits]
     return list_produits_response
 
